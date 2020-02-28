@@ -9,16 +9,16 @@
 import SwiftUI
 
 struct ContentView: View {
-    @ObservedObject var inOut = InOut()
+    @State var input = ""
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
                 Text("Input: ")
-                TextField("Type here", text: self.$inOut.input)
+                TextField("Type here", text: self.$input)
             }
             HStack {
                 Text("Output:")
-                Text(self.inOut.output)
+                Text("\((Int(self.input) ?? 0) * 5)")
             }
         }
     }
