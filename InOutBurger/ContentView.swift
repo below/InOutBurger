@@ -9,8 +9,18 @@
 import SwiftUI
 
 struct ContentView: View {
+    @ObservedObject var inOut = InOut()
     var body: some View {
-        Text("Hello, World!")
+        VStack(alignment: .leading) {
+            HStack {
+                Text("Input: ")
+                TextField("Type here", text: self.$inOut.input)
+            }
+            HStack {
+                Text("Output:")
+                Text(self.inOut.output)
+            }
+        }
     }
 }
 
