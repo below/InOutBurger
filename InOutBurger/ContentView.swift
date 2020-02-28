@@ -19,11 +19,15 @@ struct ContentView: View {
     } ()
 
     private func transform(string input: String, multiplier: Double = 1) -> String {
-        guard var number = formatter.number(from: input) else {
+        guard var number = self.numberFrom(input: input) else {
             return ""
         }
         number = NSNumber (value: number.doubleValue * multiplier)
         return formatter.string(from: number) ?? ""
+    }
+
+    func numberFrom (input: String) -> NSNumber? {
+        return formatter.number(from: input)
     }
 
     private func multiplierButton(text: String, multiplier: Double) -> some View {
@@ -34,16 +38,25 @@ struct ContentView: View {
         }
     }
 
+    private func outputView (visible: Bool = true) -> some View {
+        if visible {
+            return AnyView (HStack {
+                Text("Output:")
+                Text(self.transform(string: self.input, multiplier: self.multiplier))
+
+            })
+        } else {
+            return AnyView(EmptyView())
+        }
+    }
+
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
                 Text("Input: ")
                 TextField("Type here", text: self.$input)
             }
-            HStack {
-                Text("Output:")
-                Text(self.transform(string: self.input, multiplier: self.multiplier))
-            }
+            self.outputView(visible: self.numberFrom(input: self.input) != nil)
             HStack {
                 self.multiplierButton(text: "Double", multiplier: 2)
                 self.multiplierButton(text: "Triple", multiplier: 3)
